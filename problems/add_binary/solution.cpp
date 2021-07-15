@@ -3,7 +3,7 @@ public:
     string addBinary(string a, string b) {
          int i = a.size()-1, j = b.size()-1;
     int carry = 0;
-    string res = "";
+    string ret = "";
     while (i >= 0 || j >= 0 || carry!=0) {
         if (i >= 0) {
             carry += a[i]=='0'?0:1;
@@ -13,10 +13,10 @@ public:
             carry += b[j]=='0'?0:1;
             j--;
         }
-        res = ((carry%2)==0?"0":"1") + res;
+        ret = ((carry%2)==0?"0":"1") + ret;
         carry /= 2;
     }
-    return res;
+    return ret;
         
     }
 };
