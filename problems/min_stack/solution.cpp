@@ -1,50 +1,33 @@
 class MinStack {
 public:
-     int min;
-    class node{
-        public:
-        int currmin = INT_MAX;
-        int val;
-        node *next;
-        node(int val){
-            this->val = val;
-        }
-    };
-    node*head = NULL;
-    MinStack() {
-    }
+    /** initialize your data structure here. */
+    vector<int> stack;
+    vector<int> min;
     
+    MinStack(){
+        
+    }
+   
     void push(int val) {
-        if(head == NULL)
-            min = INT_MAX;
-        node *t = new node(val);
-        t->next = head;
-        head = t;
-        if(t->val < min){
-           // we keep a currmin variable for each node to keep track of min value till that node.
-            t->currmin = t->val;
-            min = t->val;
+        stack.push_back(val);
+        if(min.empty() || val <= min.back()){
+            min.push_back(val);
         }
-        else
-            t->currmin = min;
     }
     
     void pop() {
-        int res = head->val;
-        node *temp = head;
-        head = head->next;
-        temp->next = NULL;
-        if(head != NULL)
-        min = head->currmin;
-        delete(temp);
+        if(stack.back()==min.back()){
+            min.pop_back();
+        }
+        stack.pop_back();
     }
     
     int top() {
-        return head->val;
+        return stack.back();
     }
     
     int getMin() {
-        return head->currmin;
+        return min.back();
     }
 };
 
