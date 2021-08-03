@@ -16,10 +16,12 @@ public:
             TreeNode *newNode = new TreeNode(val);
             return newNode;
 		}
-        if(val < root->val) root->left = insertIntoBST(root->left, val);
-        
-        else root->right = insertIntoBST(root->right, val);
-        
+            if(val < root->val){
+                root->left = insertIntoBST(root->left, val);
+            }
+            else{
+                root->right = insertIntoBST(root->right, val);
+            }
         return root;
     }
 };
