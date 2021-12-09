@@ -1,19 +1,13 @@
 class Solution {
 public:
     bool canReach(vector<int>& arr, int start) {
-        queue<int> q;
-        q.push(start);
+        int n = arr.size();
         
-        while(q.size()){
-            auto curr = q.front(); q.pop();
-            if(curr < 0 || curr >= arr.size() || arr[curr] < 0) continue;
-            if(arr[curr] == 0) return true;
-            q.push(curr+arr[curr]);
-            q.push(curr-arr[curr]);
-            
-            arr[curr] *= -1;
-        }
-        return false;
-    }   
+        if(start >= n || start < 0 || arr[start] < 0) return false;   
+        if(arr[start]==0)  return true;
+        arr[start] = -arr[start];
+        
+        return canReach(arr, start+arr[start]) || canReach(arr, start-arr[start]);
+    }
+    
 };
-
