@@ -16,10 +16,10 @@ public:
         }
         for(int j=i; j<n; j++){
             if(X - C[j] >= 0){
-            if(j > i && C[j]==C[j-1]) continue;
-            curr.push_back(C[j]);
-            solve(C, j+1, curr, ans, X-C[j]);
-            curr.pop_back();
+                if(j > i && C[j]==C[j-1]) continue;
+                curr.push_back(C[j]);
+                solve(C, j+1, curr, ans, X-C[j]);
+                curr.pop_back();
             }
         }
     } 
