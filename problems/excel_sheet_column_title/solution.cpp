@@ -2,15 +2,15 @@ class Solution {
 public:
     string convertToTitle(int columnNumber) {
         char rem;
-        string result;
+        string ans;
         
         while(columnNumber){
             columnNumber -= 1;
             rem = 'A' + columnNumber%26;
-            result = rem + result;
+            ans = rem + ans;
             columnNumber /= 26;
         }
         
-        return result;
+        return ans;
     }
 };
