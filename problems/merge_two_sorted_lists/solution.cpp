@@ -14,7 +14,7 @@ public:
         ListNode temp(0);
         ListNode* current = &temp;
         
-        while(l1 != NULL && l2 != NULL){
+        while(l1 && l2){
             if(l1->val < l2->val){
                 current->next = l1;
                 l1 = l1->next;
@@ -24,13 +24,9 @@ public:
             }
             current = current->next;
         }
-        while(l1 != NULL || l2 != NULL){
-            current->next = l1 == NULL ? l2 : l1;
-            current = current->next;
-            if(l1 != NULL){l1 = l1->next;}
-            if(l2 != NULL){l2 = l2->next;}
+        if(l1) current->next = l1;
+        if(l2) current->next = l2;
         
-        }
         
         return temp.next;
     }
