@@ -1,6 +1,11 @@
 class Solution {
 public:
     bool isValid(string s) {
+        map<char, char> m;
+        m.insert({')', '('});
+        m.insert({'}', '{'});
+        m.insert({']', '['});
+        
         int n = s.size();
         stack<int> stk;
         
@@ -8,18 +13,8 @@ public:
             if(s[i] == '(' || s[i] == '{' || s[i] == '[') stk.push(s[i]);
             
             else {
-                if(s[i] == ')') {
-                    if(stk.empty() || stk.top() != '(') return false;
-                    else stk.pop();
-                }
-                else if(s[i] == '}') {
-                    if(stk.empty() || stk.top() != '{') return false;
-                    else stk.pop();
-                }
-                else {
-                    if(stk.empty() || stk.top() != '[') return false;
-                    else stk.pop();
-                }
+                if(stk.empty() || stk.top() != m[s[i]]) return false;
+                else stk.pop();
             }
         }
         return stk.empty();
