@@ -1,11 +1,8 @@
 class Solution {
 public:
-    bool search(vector<int>& nums, int target) {
-        int n = nums.size();
-        return binarySearch(nums, 0, n-1, target);
-    }
-    
-    bool binarySearch(vector<int> &nums, int l, int r, int X) {
+    bool search(vector<int>& nums, int X) {
+        int n = nums.size(), l = 0, r = n - 1;
+        
         while(l <= r){
             int m = l + (r-l)/2;
             
