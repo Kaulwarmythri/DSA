@@ -32,14 +32,15 @@ public:
         Node *newNode = new Node(node->val);
         
         m.insert({node->val, newNode});
-        
-        for(Node *curr : node->neighbors){
+        for(auto curr : node->neighbors) {
             auto it = m.find(curr->val);
-            if(it == m.end()){
+            
+            if(it == m.end()) {
                 Node *currNode = dfs(curr, m);
                 newNode->neighbors.push_back(currNode);
+            } else {
+                newNode->neighbors.push_back(it->second);
             }
-            else newNode->neighbors.push_back(it->second);
         }
         
         return newNode;
