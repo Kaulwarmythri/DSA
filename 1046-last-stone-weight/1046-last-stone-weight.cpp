@@ -3,7 +3,9 @@ public:
     int lastStoneWeight(vector<int>& stones) {
         int n = stones.size();
         
-        priority_queue<int> pq(stones.begin(), stones.end());
+        priority_queue<int> pq;
+        
+        for(int i=0; i<n; i++) pq.push(stones[i]);
         
         while(pq.size() > 1) {
             int first = pq.top(); pq.pop();
