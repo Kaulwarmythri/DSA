@@ -1,31 +1,31 @@
 class Solution {
 public:
-    vector<vector<int>> generateMatrix(int n) {
-        int r1 = 0, r2 = n-1;
-        int c1 = 0, c2 = n-1;
+    vector<vector<int>> generateMatrix(int p) {
+        int i = 0, m = p-1;
+        int j = 0, n = p-1;
         int val = 0;
 		
-		// result matrix
-        vector<vector<int>> v(n, vector<int> (n));
-        while(r1 <= r2 && c1 <= c2)
+        vector<vector<int>> v(p, vector<int> (p));
+        
+        while(i <= m && j <= n)
         {
-            for(int i = c1; i <= c2; ++i)
-                v[r1][i] = ++val;
-            r1++;
+            for(int k = j; k <= n; ++k)
+                v[i][k] = ++val;
+            i++;
 				
-            for(int i = r1; i <= r2; ++i)
-                v[i][c2] = ++val;
-            c2--;
+            for(int l = i; l <= m; ++l)
+                v[l][n] = ++val;
+            n--;
 				
-            if(r1 < r2 && c1 < c2) {
-                for(int i = c2; i>=c1; --i)
-                    v[r2][i] = ++val;
-                r2--;
+            if(i <= m && j <= n) {
+                for(int k = n; k >= j; --k)
+                    v[m][k] = ++val;
+                m--;
 					
 					// move up (col will be fixed)
-                for(int i = r2; i>=r1; --i) 
-                    v[i][c1] = ++val;
-                c1++;
+                for(int l = m; l >= i; --l) 
+                    v[l][j] = ++val;
+                j++;
             }
         }
         return v;
