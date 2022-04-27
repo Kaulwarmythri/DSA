@@ -21,7 +21,8 @@ public:
                 sort(pos.begin(), pos.end());
                 sort(chars.begin(), chars.end());
                 
-                for(int j=0; j<pos.size(); j++) s[pos[j]] = chars[j];
+                int m = pos.size();
+                for(int j=0; j<m; j++) s[pos[j]] = chars[j];
             }
         }
         return s;
