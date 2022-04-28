@@ -1,38 +1,38 @@
 class Solution {
-    
-    int di[4] = {1, -1, 0, 0}, dj[4] = {0, 0, 1, -1};
-    
-     bool isPossible(vector<vector<int>> &mat , vector<vector<bool>> &visited , int mid , int i , int j) {
-            if(i==mat.size()-1 && j==mat[0].size()-1) return true;
-            
-            visited[i][j]=true;
-            for(int k=0;k<4;k++) {
-                int newi=i+di[k];
-                    int newj=j+dj[k];
-                    
-                    if(newi>=0 && newi<mat.size() && newj>=0 && newj<mat[0].size() && visited[newi][newj]==false) {
-                            if(abs(mat[i][j]-mat[newi][newj])<=mid) {
-                                  if(isPossible(mat ,visited,mid , newi , newj)==true)
-                                      return true;
-                            }   
-                    }
-            }
-            return false;       
-    }
-    
+    int m, n;
+    int dirX[4] = {0, 0, -1, 1}, dirY[4] = {-1, 1, 0, 0};
 public:
     int minimumEffortPath(vector<vector<int>>& heights) {
-        int m=heights.size();
-        int n=heights[0].size();
-        int l=0,h=10000002;
+        m = heights.size(); n = heights[0].size();
         
-        while(l<h) {
-                int mid=(l + (h-l)/2);
-                vector<vector<bool>> visited(m , vector<bool> (n , false));
-                if(isPossible(heights , visited , mid , 0 , 0)==true)  h=mid;
-                
-                else l = mid+1;
+        int l = 0, h = 1e6;
+        
+        while(l < h) {
+            int mid = (l+h)>>1;
+            vector<vector<bool>> vis(m, vector<bool>(n, false));
+            
+            if(isPossible(heights, vis, mid, 0, 0)) h = mid;
+            else l = mid+1;
         }
         return l;
+    }
+    
+    bool isPossible(vector<vector<int>>&X, vector<vector<bool>>&vis, int mid, int x, int y){
+        if(x == m-1 && y == n-1) return true;
+        
+        vis[x][y] = true;
+        
+        for(int i=0; i<4; i++) {
+            int newX = x + dirX[i], newY = y + dirY[i];
+            
+            if(newX >= 0 && newX < m && newY >= 0 && newY < n && !vis[newX][newY]) {
+                if(abs(X[newX][newY] - X[x][y]) <= mid) {
+                    
+                    if(isPossible(X, vis, mid, newX, newY)) return true;
+                }
+            }
+        }
+        return false;
+            
     }
 };
