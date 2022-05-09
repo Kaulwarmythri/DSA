@@ -1,8 +1,9 @@
 class Solution {
     map<int, string> m;
-    vector<string> ans;
+    
 public:
     vector<string> letterCombinations(string digits) {
+        vector<string> ans;
         if(digits == "") return ans;
         
         m.insert({2, "abc"});
@@ -15,12 +16,12 @@ public:
         m.insert({9, "wxyz"});
         
         string currString = "";
-        makeCombinations(digits, currString, 0);
+        makeCombinations(digits, currString, ans, 0);
         
         return ans;
     }
     
-    void makeCombinations(string digits, string &curr, int i) {
+    void makeCombinations(string digits, string &curr, vector<string> &ans, int i) {
         
         if(i == digits.size()) {
             
@@ -30,7 +31,7 @@ public:
         
         for(auto l : m[digits[i] - '0']) {
             curr += l;
-            makeCombinations(digits, curr, i+1);
+            makeCombinations(digits, curr, ans, i+1);
             curr.pop_back();
         }
         
