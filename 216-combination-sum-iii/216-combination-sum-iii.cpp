@@ -8,14 +8,17 @@ public:
     }
     
     void solve(int i, int k, int n, vector<int> &curr, vector<vector<int>> &ans){
-        if(k==0){
-            if(n==0)ans.push_back(curr);
-            return;
+        if(curr.size() == k) {
+            if(n == 0) {
+                ans.push_back(curr);
+                return;
+            }
         }
-        for(int j=i; j<=9; j++){
-            if(n - j >= 0){
+        
+        for(int j=i; j<=9; j++) {
+            if(n - j >= 0) {
                 curr.push_back(j);
-                solve(j+1, k-1, n-j, curr, ans);
+                solve(j+1, k, n-j, curr, ans);
                 curr.pop_back();
             }
         }
