@@ -15,6 +15,7 @@ public:
         if(!root) return;
         
         TreeNode *left = root->left, *right = root->right;
+        
         root->left = NULL;
         
         flatten(left);
@@ -24,5 +25,6 @@ public:
         TreeNode *curr = root;
         while(curr->right) curr = curr->right;
         curr->right = right;
+
     }
 };
