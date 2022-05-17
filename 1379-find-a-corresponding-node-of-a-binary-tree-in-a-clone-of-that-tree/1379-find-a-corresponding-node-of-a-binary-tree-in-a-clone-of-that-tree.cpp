@@ -14,8 +14,7 @@ public:
     TreeNode* getTargetCopy(TreeNode* original, TreeNode* cloned, TreeNode* target) {
         traverse(original, cloned, target);
         
-        return ans;
-        
+        return ans;    
     }
     
     void traverse(TreeNode *original, TreeNode *cloned, TreeNode *target) {
