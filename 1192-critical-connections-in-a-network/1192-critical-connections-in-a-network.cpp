@@ -3,9 +3,9 @@ public:
     vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
         disc = vector<int>(n);
         low = vector<int>(n);
-        for (auto conn : connections) {
-            edgeMap[conn[0]].push_back(conn[1]);
-            edgeMap[conn[1]].push_back(conn[0]);
+        for (auto c : connections) {
+            edgeMap[c[0]].push_back(c[1]);
+            edgeMap[c[1]].push_back(c[0]);
         }
         dfs(0, -1);
         return ans;
