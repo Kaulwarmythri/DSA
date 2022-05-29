@@ -10,7 +10,8 @@ public:
                 masks[i] |= 1 << (ch - 'a');
             }
             for(int j=0; j<i; j++) {
-                if((masks[i] & masks[j]) == 0) ans = max(ans, int(words[i].size() * words[j].size())); 
+                if((masks[i] & masks[j]) == 0) 
+                    ans = max(ans, int(words[i].size() * words[j].size())); 
             }
         }
         return ans > INT_MIN ? ans : 0;
