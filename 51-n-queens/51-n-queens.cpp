@@ -1,55 +1,44 @@
 class Solution {
-    int s;
+    vector<vector<string>> Bs;
 public:
-    bool isSafe(vector<string> &board, int row, int col){
-        // checking row
-        for(int i = 0; i < row; ++i) {
-            if(board[i][col] == 'Q') {
-                return false;
+    vector<vector<string>> solveNQueens(int n) {
+        vector<string> board(n, string(n, '.')); 
+        solve(board, 0);
+        
+        return Bs;
+        
+    }
+    
+    void solve(vector<string> &board, int row) {
+        if(row == board.size()) {
+            Bs.push_back(board);
+            return;
+        }
+        
+        for(int col=0; col<board.size(); col++) {
+            if(isSafe(board, row, col)) {
+                board[row][col] = 'Q';
+                
+                solve(board, row+1);
+                
+                board[row][col] = '.';
             }
         }
-        // check left diagonal
-        int r = row-1, c = col-1;
-        while(r >= 0 && c >= 0) {
-            if(board[r--][c--] == 'Q') return false;
+    }
+    
+    bool isSafe(vector<string> board, int row, int col) {
+        for(int i=0; i<board.size(); i++) {
+            if(board[i][col] == 'Q') return false;
         }
-        // check right diagonal
-        r = row-1, c = col+1;
-        while(r >= 0 && c < board.size()) {
-            if(board[r--][c++] == 'Q') return false;
+        
+        for(int i=row-1, j=col-1; i>=0 && j>=0; i--, j--) {
+            if(board[i][j] == 'Q') return false;
+        }
+        
+        for(int i=row-1, j=col+1; i>=0 && col<board.size(); i--, j++) {
+            if(board[i][j] == 'Q') return false;
         }
         return true;
     }
-    
-    void solve(vector<vector<string>> &ans, vector<string> &board, int row, int target){
-		//if we come to the last row check
-        if(row == board.size()){
-			//do we have queens left?
-            if(target == 0){
-				//if no push the answer
-                ans.push_back(board);
-            }
-			//if queens are left return
-            return;
-        }
-        for(int col=0; col < board.size(); col++){
-			//checking if the location is safe
-            if(isSafe(board, row, col)){
-
-                board[row][col] = 'Q';
-				//find recursive solution
-                solve(ans, board, row + 1, target - 1);
-				//backtrack
-                board[row][col] = '.';
-            }
-        } 
-        return;
-    }
-    
-    vector<vector<string>> solveNQueens(int n) {
-        vector<vector<string>> ans;
-        vector<string> board(n, string(n, '.'));  //initialize the string to '.'
-        solve(ans, board, 0, n);
-        return ans;
-    }
+       
 };
