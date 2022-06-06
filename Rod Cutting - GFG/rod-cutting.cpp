@@ -16,22 +16,18 @@ class Solution{
         return solve(price, n-1, n, dp);
     }
     
-    int solve(int price[], int index, int n, vector<vector<int>> &dp) {
-        if (index == 0) return n * price[0];
-
-    if (dp[index][n] != -1)
-        return dp[index][n];
-    int notCut = solve(price, index - 1, n,dp);
-    int cut = INT_MIN;
-    int rod_length = index + 1;
- 
-    if (rod_length <= n)
-        cut = price[index]
-              + solve(price, index, n - rod_length,dp);
- 
-    return dp[index][n]=max(notCut, cut);
+    int solve(int price[], int idx, int n, vector<vector<int>> &dp) {
+        if(idx == 0) return price[0]*n;
+        
+        if(dp[idx][n] != -1) return dp[idx][n];
+        
+        int x,y=INT_MIN;
+        x = solve(price, idx-1, n, dp);
+        
+        if(idx <= n) y = price[idx] + solve(price, idx, n-idx-1, dp);
+        
+        return dp[idx][n] = max(x, y);
     }
-    
     
 };
 
