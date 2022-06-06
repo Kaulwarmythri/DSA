@@ -24,7 +24,7 @@ class Solution{
         int x,y=INT_MIN;
         x = solve(price, idx-1, n, dp);
         
-        if(idx <= n) y = price[idx] + solve(price, idx, n-idx-1, dp);
+        if(idx < n) y = price[idx] + solve(price, idx, n-idx-1, dp);
         
         return dp[idx][n] = max(x, y);
     }
