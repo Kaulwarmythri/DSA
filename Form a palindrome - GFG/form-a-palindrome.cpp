@@ -8,19 +8,32 @@ using namespace std;
 //User function template for C++
 
 class Solution{
+    int n;
   public:
     int countMin(string s){
-        int n = s.size(), l, h, gap = 1;
-        vector<vector<int>> dp(n, vector<int>(n, 0));
+        n = s.size();
+        string t = s;
+        reverse(t.begin(), t.end());
         
-        for(; gap<n; gap++) {
-            for(l=0, h=gap; h < n; l++, h++) {
-                dp[l][h] = (s[l] == s[h]) ? dp[l+1][h-1] : (min(dp[l][h-1], dp[l+1][h])+1);
+        int llcs = lcs(s, t);
+        return n - llcs;
+    }
+    
+    int lcs(string s, string t) {
+        int dp[n+1][n+1];
+        
+        for(int i=0; i<=n; i++) {
+            for(int j=0; j<=n; j++) {
+                if(i==0 || j==0) dp[i][j] = 0;
+                
+                else dp[i][j] = (s[i-1] == t[j-1]) ? dp[i-1][j-1] + 1 
+                            : max(dp[i][j-1], dp[i-1][j]);
             }
         }
-        
-        return dp[0][n-1];
+        return dp[n][n];
     }
+    
+    
 };
 
 // { Driver Code Starts.
