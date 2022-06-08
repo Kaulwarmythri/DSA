@@ -16,19 +16,24 @@ class Solution{
         return solve(price, n-1, n, dp);
     }
     
-    int solve(int price[], int idx, int n, vector<vector<int>> &dp) {
-        if(idx == 0) return price[0]*n;
+    int solve(int price[], int idx, int size, vector<vector<int>> &dp) {
+        if(idx == 0) return size*price[0];
         
-        if(dp[idx][n] != -1) return dp[idx][n];
+        if(dp[idx][size] != -1) return dp[idx][size];
         
-        int x,y=INT_MIN;
-        x = solve(price, idx-1, n, dp);
+        int x, y = INT_MIN;
         
-        if(idx < n) y = price[idx] + solve(price, idx, n-idx-1, dp);
+        x = solve(price, idx-1, size, dp);
+        int cut = INT_MIN;
+        int rod_length = idx + 1;
+ 
+        if (rod_length <= size)
+        cut = price[idx]
+              + solve(price, idx, size - rod_length,dp);
+ 
+        return dp[idx][size]=max(x, cut);
         
-        return dp[idx][n] = max(x, y);
     }
-    
 };
 
 // { Driver Code Starts.
