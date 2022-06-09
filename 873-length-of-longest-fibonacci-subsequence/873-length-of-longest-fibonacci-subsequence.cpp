@@ -10,8 +10,8 @@ public:
             
             while(l < r) {
                 int sum = a[l] + a[r];
-                if(sum < a[i]) l++;
-                else if(sum > a[i]) r--;
+                if(sum > a[i]) r--;
+                else if(sum < a[i]) l++;
                 else {
                     dp[r][i] = dp[l][r] + 1;
                     maxi = max(maxi, dp[r][i]);
@@ -21,6 +21,6 @@ public:
             }
         }
         
-        return maxi==0 ? 0 : maxi + 2;
+        return maxi == 0 ? 0 : maxi+2;
     }
 };
