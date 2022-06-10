@@ -4,7 +4,7 @@ public:
         if(s == "") return 0;
         int n = s.size(), i = 0, j = 0, len = 0;
         
-        vector<int> arr(256, 0);
+        vector<int> arr(128, 0);
         
         while(j < n) {
             if(arr[s[j]] < 1) {
