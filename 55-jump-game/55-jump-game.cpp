@@ -4,7 +4,7 @@ public:
         int n = nums.size(), max_reach = 0, curr_reach = 0;
         
         for(int i=0; i<n-1; i++) {
-            if(curr_reach < i) return false;
+            if(i > curr_reach) return false;
             
             max_reach = nums[i] + i;
             
