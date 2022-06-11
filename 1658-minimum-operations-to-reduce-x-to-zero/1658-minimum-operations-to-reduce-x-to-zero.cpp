@@ -19,8 +19,8 @@ public:
             }
         }
         if(curr == sum) len = max(len, r-l);
-        if(len == 0) return -1;
         
+        if(len == 0) return -1;
         return n - len;
     }
 };
