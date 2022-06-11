@@ -11,21 +11,16 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        ListNode *fast=head, *slow=head, *prev=NULL, *nxt;
+        return check(head, head);
+    }
+    
+    bool check(ListNode* &head1, ListNode *head2) {
+        if(!head2) return true;
         
-        while(fast && fast->next) {
-            fast = fast->next->next;
-            nxt = slow->next;
-            slow->next = prev;
-            prev = slow;
-            slow = nxt;
-        }
-        slow = (fast) ? slow->next : slow;
-        while(slow) {
-            if(slow->val != prev->val) return false;
-            slow = slow->next;
-            prev = prev->next;
-        }
-        return true;
+        bool isPal = check(head1, head2->next);
+        if(head1->val != head2->val) return false;
+        head1 = head1->next;
+        
+        return isPal;
     }
 };
