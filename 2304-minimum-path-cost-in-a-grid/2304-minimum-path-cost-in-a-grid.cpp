@@ -10,11 +10,11 @@ public:
         for(int i=1; i<m; i++) {
             for(int j=0; j<n; j++) {
                 for(int k=0; k<n; k++) {
-                    dp[i][k] = min(dp[i][k], grid[i][k] + dp[i-1][j] + mc[grid[i-1][j]][k]);
+                    dp[i][k] = 
+                        min(dp[i][k], grid[i][k] + mc[grid[i-1][j]][k] + dp[i-1][j]);
                 }
             }
         }
-        
         return *min_element(dp[m-1].begin(), dp[m-1].end());
     }
 };
