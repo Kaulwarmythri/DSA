@@ -12,6 +12,7 @@ class Solution {
 public:
     ListNode* swapPairs(ListNode* head) {
         if(!head || !head->next) return head;
+        
         ListNode *nxt = head->next;
         head->next = nxt->next;
         nxt->next = head;
@@ -21,29 +22,3 @@ public:
         return head;
     }
 };
-
-
-
-/*
- ListNode* swapPairs(ListNode* head) {
-        if(!head || !head->next) return head;
-        
-        ListNode *prev = NULL, *curr = head, *nxt = head->next;
-        while(curr && nxt) {
-            if(!prev) {
-                curr->next = nxt->next;
-                nxt->next = curr;
-                head = nxt;
-            }else {
-                prev->next = nxt;
-                curr->next = nxt->next;
-                nxt->next = curr;
-            }
-            prev = curr;
-            curr = curr->next;
-            if(curr) nxt = curr->next;    
-        }
-        
-        return head;
-    }
-*/
