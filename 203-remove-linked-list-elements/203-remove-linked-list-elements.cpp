@@ -14,9 +14,8 @@ public:
         if(!head) return NULL;
         
         head->next = removeElements(head->next, x);
+        if(head->val == x) return head->next;
         
         return head->val == x ? head->next : head;
-        
-        
     }
 };
