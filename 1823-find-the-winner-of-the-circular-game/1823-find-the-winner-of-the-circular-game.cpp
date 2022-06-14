@@ -1,18 +1,8 @@
 class Solution {
 public:
     int findTheWinner(int n, int k) {
-        queue<int> q;
-        for(int i=1; i<=n; i++) q.push(i);
+        if(n == 1) return 1;
         
-        while(q.size() > 1) {
-            int i = k;
-            while(i > 1) {
-                auto f = q.front(); q.pop();
-                q.push(f);
-                i--;
-            }
-            q.pop();
-        }
-        return q.front();
+        return (findTheWinner(n-1, k) + k-1) % n + 1;
     }
 };
