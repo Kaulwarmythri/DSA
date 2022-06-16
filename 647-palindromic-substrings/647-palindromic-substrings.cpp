@@ -1,44 +1,22 @@
 class Solution {
 public:
     int countSubstrings(string s) {
-        int count = 0, mid, left, right = 0;
+        int n = s.size(), ans = 0;
+        vector<vector<bool>> dp(n, vector<bool>(n));
         
-        int n = s.size();
+        for(int i=0; i<n; i++) dp[i][i] = true, ans++;
         
         for(int i=0; i<n; i++) {
-            mid = i;
-            left = mid-1;
-            right = mid+1;
-            
-            count++;
-            
-            //odd length palindrome
-            while(left >= 0 && right < n) {
-                if(s[left] == s[right]) {
-                    left--;
-                    right++;
-                    count++;
-                } else break;
-            }
-            
-            //even length palindrome
-            
-            if(i < s.size()-1 && s[i] == s[i+1]) {
-                count++;
-                left = mid-1;
-                right = mid+2;
-                
-                while(left >= 0 && right < n) {
-                    if(s[left] == s[right]) {
-                        left--;
-                        right++;
-                        count++;
-                    } else break;
-                    
+            for(int j=0; j<i; j++) {
+                if(s[i] == s[j]) {
+                    if(i-j == 1 || dp[i-1][j+1]) {
+                        dp[i][j] = true;
+                        ans++;
+                    }
                 }
             }
         }
+        return ans;
         
-        return count;
     }
 };
