@@ -1,58 +1,65 @@
 class TrieNode {
-public: 
-    TrieNode* children[27] = {nullptr};
-    int index = 0;
+public:
+    TrieNode *child[27];
+    int index = -1;
 };
-
 
 class Trie {
-public: 
-    TrieNode* root; 
-    Trie() { 
-        root = new TrieNode(); 
+    TrieNode *root;
+public:
+    Trie() {
+        root = new TrieNode();
     }
-
-    void insert(string word, int i) {
-        TrieNode* node = root; 
-        for (auto& c : word) {
-            if (!node->children[c - 'a']) 
-                node->children[c - 'a'] = new TrieNode(); 
-            node = node->children[c - 'a'];
-            node->index = i; 
+    
+    void insert(string s, int i) {
+        TrieNode *temp = root;
+        
+        for(auto c : s) {
+            if(!temp->child[c - 'a']) temp->child[c - 'a'] = new TrieNode();
+            temp = temp->child[c - 'a'];
+            temp->index = i;
         }
     }
-
-    int prefix(string word) {
-        TrieNode* node = root; 
-        for (auto& letter : word) {
-            node = node->children[letter - 'a']; 
-            if (!node) return -1; 
+    
+    int search(string s) {
+        TrieNode *temp = root;
+        
+        for(auto c : s) {
+            if(!temp->child[c - 'a']) return -1;
+            
+            temp = temp->child[c - 'a'];
         }
-        return node->index; 
+        return temp->index;
     }
 };
 
-
 class WordFilter {
-    Trie* trie; 
+    Trie *root;
 public:
     WordFilter(vector<string>& words) {
-        trie = new Trie(); 
-        for (int i = 0; i < size(words); ++i) {
-            for (int j = 0; j < words[i].size(); j++) {
-                string key = words[i].substr(j) + "{" + words[i]; 
-                trie->insert(key, i); 
+        root = new Trie();
+        
+        int n = words.size();
+        string s = "";
+        int index = 0;
+        
+        for(int i=0; i<n; i++) {
+            s = '{' + words[i];
+            root->insert(s, index);
+            
+            for(int j=0; j<words[i].size(); j++) {
+                s = words[i].substr(j) + '{' + words[i];
+                root->insert(s, index);
             }
+            index++;
         }
     }
     
     int f(string prefix, string suffix) {
-        string key = suffix + "{" + prefix; 
-        return trie->prefix(key); 
+        string s = suffix + "{" + prefix;
+        return root->search(s);
     }
 };
-
-
 
 /**
  * Your WordFilter object will be instantiated and called as such:
