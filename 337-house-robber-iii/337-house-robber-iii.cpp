@@ -1,32 +1,31 @@
-/* * Definition for a binary tree node.
+/**
+ * Definition for a binary tree node.
  * struct TreeNode {
  *     int val;
  *     TreeNode *left;
  *     TreeNode *right;
  *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */
-
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
-    map<TreeNode *, int> dp;
 public:
     int rob(TreeNode* root) {
         if(!root) return 0;
+        pair<int, int> ans = robTree(root);
         
-        int include = root->val, exclude = 0;
+        return max(ans.first, ans.second);
+    }
+    
+    pair<int, int> robTree(TreeNode *root) {
+        if(!root) return {0, 0};
         
-        if(dp.find(root) != dp.end()) return dp[root];
+        pair<int, int> left = robTree(root->left), right = robTree(root->right);
         
-        if(root->left) {
-            include += rob(root->left->left) + rob(root->left->right);
-            exclude += rob(root->left);
-        }
+        int include = left.second + right.second + root->val,
+        exclude = max(left.first, left.second) + max(right.first, right.second);
         
-        if(root->right) {
-            include += rob(root->right->left) + rob(root->right->right);
-            exclude += rob(root->right);
-        }
-        
-        return dp[root] = max(include, exclude);
+        return {include, exclude};
     }
 };
