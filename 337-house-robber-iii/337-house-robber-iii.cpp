@@ -10,22 +10,19 @@
  * };
  */
 class Solution {
+    map<TreeNode *, int> dp;
 public:
     int rob(TreeNode* root) {
         if(!root) return 0;
-        pair<int, int> ans = robTree(root);
         
-        return max(ans.first, ans.second);
-    }
-    
-    pair<int, int> robTree(TreeNode *root) {
-        if(!root) return {0, 0};
+        if(dp.find(root) != dp.end()) return dp[root];
         
-        pair<int, int> left = robTree(root->left), right = robTree(root->right);
+        int included = root->val, excluded = rob(root->left) + rob(root->right);
         
-        int include = left.second + right.second + root->val,
-        exclude = max(left.first, left.second) + max(right.first, right.second);
+        if(root->left) included += rob(root->left->left) + rob(root->left->right);
+        if(root->right) included += rob(root->right->left) + rob(root->right->right);
         
-        return {include, exclude};
+        return dp[root] = max(included, excluded);
+         
     }
 };
