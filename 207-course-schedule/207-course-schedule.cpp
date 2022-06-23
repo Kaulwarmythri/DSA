@@ -1,42 +1,35 @@
 class Solution {
 public:
-    bool canFinish(int n, vector<vector<int>>& p) {
-        if(p.size()==0) return true;
-        
-        vector<int> indegree(n, 0);
+    bool canFinish(int n, vector<vector<int>>& pre) {
+        int count = 0;
+        if(pre.size() == 0) return true;
         vector<vector<int>> graph(n);
+        vector<int> indegree(n, 0);
         
-        for(auto &x : p){
-            graph[x[1]].push_back(x[0]);
-            indegree[x[0]]++;
+        for(auto &node: pre) {
+            graph[node[1]].push_back(node[0]);
+            indegree[node[0]]++;
         }
         
         queue<int> q;
-        for(int i=0; i<n; i++){
-            if(indegree[i]==0) q.push(i), indegree[i]--;
-        }
-        if(q.size()==0) return false; //cycle exists
+        for(int i=0; i<n; i++) 
+            if(indegree[i] == 0) q.push(i), indegree[i]--;
         
-        int count = 0;
-        while(!q.empty()){
-            int size = q.size();
-            
-            for(int i=0; i<size; i++){
+        if(q.size() == 0) return false;
+        
+        while(!q.empty()) {
+            int s = q.size();
+            for(int i=0; i<s; i++) {
                 int curr = q.front(); q.pop();
                 count++;
-                for(auto child : graph[curr]){
-                    indegree[child]--;
-                    if(indegree[child]==0) q.push(child);
+                
+                for(auto neighbor: graph[curr]) {
+                    indegree[neighbor]--;
+                    if(indegree[neighbor] == 0) q.push(neighbor);
                 }
-            }   
+            }
         }
         
-        if(count==n) return true;
-        
-        return false;
-        
-        
+        return count == n;
     }
 };
-
-        
