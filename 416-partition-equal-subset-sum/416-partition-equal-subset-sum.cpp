@@ -1,15 +1,22 @@
 class Solution {
 public:
     bool canPartition(vector<int>& nums) {
-        int totalSum = accumulate(begin(nums), end(nums), 0), halfSum = totalSum / 2;
+        int totalSum = accumulate(begin(nums), end(nums), 0);
         if(totalSum & 1) return false;
-        bool dp[halfSum+1]; memset(dp, false, sizeof dp);
-        dp[0] = true;                        
-        for(int num : nums) 
-            for(int j = halfSum; j >= num; j--)
-                if(dp[j - num])
-                    dp[j] = true;
-            
-        return dp[halfSum];
+        
+        vector<int> dp(totalSum+1, -1);
+        
+        return solve(nums, totalSum / 2, dp);
     }
+    bool solve(vector<int>& nums, int sum, vector<int> &dp, int i = 0) {
+        if(sum == 0) return true;  
+        
+        if(i >= size(nums) || sum < 0) return false; 
+        
+        if(dp[sum] != -1) return dp[sum];
+        
+        
+        return dp[sum] = solve(nums, sum-nums[i], dp, i+1) || solve(nums, sum, dp, i+1);         
+    }
+
 };
