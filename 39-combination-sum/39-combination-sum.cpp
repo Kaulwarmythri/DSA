@@ -1,25 +1,29 @@
 class Solution {
+    vector<vector<int>> ans;
+    vector<int> buff;
     int n;
 public:
-    vector<vector<int>> combinationSum(vector<int>& C, int X) {
-        n = C.size();
-        sort(C.begin(), C.end());
-        vector<int> curr; 
-        vector<vector<int>> ans;
-        solve(C, 0, curr, ans, X);
+    vector<vector<int>> combinationSum(vector<int>& c, int X) {
+        n = c.size();
+        sort(c.begin(), c.end());
+        solve(c, 0, X, buff);
+        
         return ans;
     }
     
-    void solve(vector<int> &C, int i, vector<int> &curr, vector<vector<int>> &ans, int X){
-        if(X == 0){
-            ans.push_back(curr);
+    void solve(vector<int>& c, int i, int X, vector<int> &buff) {
+        if(i == n) return;
+        if(X == 0) {
+            ans.push_back(buff);
             return;
         }
-        while(i < n && X - C[i] >= 0){
-            curr.push_back(C[i]);
-            solve(C, i, curr, ans, X-C[i]);
-            curr.pop_back();
-            i++;
+        
+        for(int j=i; j<n; j++) {
+            if(c[j] <= X) {
+                buff.push_back(c[j]);
+                solve(c, j, X-c[j], buff);
+                buff.pop_back();
+            }
         }
     }
 };
