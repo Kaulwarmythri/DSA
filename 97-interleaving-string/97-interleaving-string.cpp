@@ -1,24 +1,25 @@
 class Solution {
+    int m, n, p;
+    vector<vector<int>> dp;
 public:
     bool isInterleave(string s1, string s2, string s3) {
-        int m = s1.size(), n = s2.size(), p = s3.size();
+        m = s1.size(); n = s2.size(); p = s3.size();
+        dp.resize(m+1, vector<int>(n+1, -1));
         if(m + n != p) return false;
+        return solve(s1, s2, s3, m-1, n-1, p-1);
+    }
+    
+    bool solve(string s1, string s2, string s3, int m, int n, int p) {
+        if(m < 0 && n < 0 && p < 0) return true;
         
-        vector<vector<bool>> dp(m+1, vector<bool>(n+1));
+        if(m >= 0 && n >= 0 && dp[m][n] != -1) return dp[m][n];
         
-        for(int i=0; i<=m; i++) {
-            for(int j=0; j<=n; j++) {
-                if(i==0 && j==0) dp[i][j] = true;
-                else {
-                    if(!i) dp[i][j] = dp[i][j-1] && s2[j-1] == s3[i+j-1];
-                    else if(!j) dp[i][j] = dp[i-1][j] && s1[i-1] == s3[i+j-1];
-                    else {
-                        dp[i][j] = ((dp[i][j-1] && s2[j-1] == s3[i+j-1]) || 
-                                   (dp[i-1][j] && s1[i-1] == s3[i+j-1]));
-                    }
-                }
-            }
+        if(m >= 0 && s1[m] == s3[p] && n >= 0 && s2[n] == s3[p]) {
+            return dp[m][n] = solve(s1, s2, s3, m-1, n, p-1) || solve(s1, s2, s3, m,n-1,p-1);
         }
-        return dp[m][n];
+        else if(m >= 0 && s1[m] == s3[p]) return solve(s1, s2, s3, m-1, n, p-1);
+        else if(n >= 0 && s2[n] == s3[p]) return solve(s1, s2, s3, m, n-1, p-1);
+        
+        return false;
     }
 };
