@@ -1,28 +1,28 @@
 class Solution {
-    int n;
     vector<vector<int>> dp;
+    int n;
 public:
     int maxProfit(vector<int>& prices) {
-        n = prices.size();
-        dp.resize(n, vector<int>(2, -1));
+        n = prices.size(); 
+        dp.resize(n+1, vector<int>(2, -1));
+        
         return solve(prices, 0, true);
     }
     
-    int solve(vector<int> &prices, int idx, bool buying) {
-        if(idx >= n) return 0;
+    int solve(vector<int> &prices, int i, bool can) {
+        if(i >= n) return 0;
         
-        if(dp[idx][buying] != -1) return dp[idx][buying];
+        if(dp[i][can] != -1) return dp[i][can];
         
-        int cooldown = solve(prices, idx+1, buying);
-        if(buying) {
-            int buy = solve(prices, idx+1, !buying) - prices[idx];
-            
-            return dp[idx][buying] = max(buy, cooldown);
+        if(can) {
+            int buy = solve(prices, i+1, false) - prices[i];
+            int cooldown = solve(prices, i+1, true);
+            return dp[i][can] = max(buy, cooldown);
         } else {
-            int sell = solve(prices, idx+2, !buying) + prices[idx];
-            
-            return dp[idx][buying] = max(sell, cooldown);
+            int sell = solve(prices, i+2, true) + prices[i];
+            int cooldown = solve(prices, i+1, false);
+            return dp[i][can] = max(sell, cooldown);
         }
-        return -1;
+        return 0;
     }
 };
