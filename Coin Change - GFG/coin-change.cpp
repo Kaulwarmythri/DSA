@@ -6,19 +6,16 @@ using namespace std;
 class Solution {
   public:
     long long int count(int S[], int m, int n) {
-        vector<vector<long long int>> dp(m, vector<long long int>(n+1));
-        for (int i = 0; i < m; i++) dp[i][0] = 1;
- 
-        for (int i = 0; i < m; i++) {
-            for (int j = 1; j <= n; j++) {
-                long long int x = (j-S[i] >= 0) ? dp[i][j-S[i]] : 0;
-                
-                long long int y = (i >= 1) ? dp[i-1][j] : 0;
-
-                dp[i][j] = x + y;
+        vector<long long int> dp(n+1, 0);
+        
+        dp[0] = 1;
+        
+        for(int i=0; i<m; i++) {
+            for(int j=S[i]; j<=n; j++) {
+                dp[j] += dp[j-S[i]];
             }
         }
-        return dp[m-1][n];
+        return dp[n];
     }
 };
 
