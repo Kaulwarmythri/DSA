@@ -6,8 +6,9 @@
  *     TreeNode *right;
  *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}* };*/
-
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
 public:
     int kthSmallest(TreeNode* root, int &k) {
@@ -17,14 +18,11 @@ public:
         if(left) return left;
         
         k--;
-        
-        if(k == 0) return root->val;
+        if(!k) return root->val;
         
         int right = kthSmallest(root->right, k);
         if(right) return right;
         
         return 0;
-        
-        
     }
 };
