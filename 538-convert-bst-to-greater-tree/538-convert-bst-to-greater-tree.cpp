@@ -6,27 +6,25 @@
  *     TreeNode *right;
  *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) };*/
 class Solution {
+    int sum = 0;
 public:
     TreeNode* convertBST(TreeNode* root) {
-        int sum = 0;
-        sumNodes(root, sum);
+        if(!root) return root;
+        solve(root);
+        
         return root;
     }
     
-    void sumNodes(TreeNode *root, int &sum) {
+    void solve(TreeNode *root) {
         if(!root) return;
         
-        sumNodes(root->right, sum);
+        solve(root->right);
+        
         sum += root->val;
         root->val = sum;
         
-        sumNodes(root->left, sum);
-        
+        solve(root->left);
     }
-    
-    
 };
