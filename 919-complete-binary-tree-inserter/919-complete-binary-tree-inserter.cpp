@@ -10,34 +10,31 @@
  * };
  */
 class CBTInserter {
-    TreeNode *root;
+    vector<TreeNode*> tree;
 public:
     CBTInserter(TreeNode* root) {
-        this->root = root;
+        tree.push_back(root);
+        
+        for(int i=0; i<tree.size(); i++) {
+            if(tree[i]->left) tree.push_back(tree[i]->left);
+            if(tree[i]->right) tree.push_back(tree[i]->right);
+        }
     }
     
     int insert(int val) {
-        TreeNode* curr;
-        queue<TreeNode *> q; q.push(root);
-        
-        while(q.size()) {
-            curr = q.front(); q.pop();
-            if(!curr->left) {
-                curr->left = new TreeNode(val);
-                break;
-            }
-            if(!curr->right) {
-                curr->right = new TreeNode(val);
-                break;
-            }
-            q.push(curr->left);
-            q.push(curr->right);
+        int n = tree.size();
+        TreeNode *node = new TreeNode(val);
+        tree.push_back(node);
+        if(n%2) {
+            tree[(n-1)/2]->left = node;
+        } else {
+            tree[(n-1)/2]->right = node;
         }
-        return curr->val;
+        return tree[(n-1)/2]->val;
     }
     
     TreeNode* get_root() {
-        return root;
+        return tree[0];
     }
 };
 
