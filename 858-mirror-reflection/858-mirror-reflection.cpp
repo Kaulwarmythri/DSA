@@ -6,3 +6,7 @@ public:
         return 1 - p%2 + q%2;
     }
 };
+
+//p = even, q = odd   =>   2
+//p = odd,  q = odd   =>   1
+//p = odd,  q = even  =>   0
