@@ -1,5 +1,6 @@
 class Solution {
     vector<vector<int>> m{{1}, {0,2}, {0,1,3,4}, {2,4}, {0}, {0,1,2,3,4}};
+    
     int mod = pow(10, 9) + 7;
     vector<vector<int>> dp;
 public:
@@ -16,8 +17,8 @@ public:
         int ans = 0;
         
         for(auto &i : m[prev]) {
-            ans = (ans + solve(n-1, i))% mod;
+            dp[n][prev] = (dp[n][prev] + solve(n-1, i))% mod;
         }
-        return dp[n][prev] = ans;
+        return dp[n][prev];
     }
 };
