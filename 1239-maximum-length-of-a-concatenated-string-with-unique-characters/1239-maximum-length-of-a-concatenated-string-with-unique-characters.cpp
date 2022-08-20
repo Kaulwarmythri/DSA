@@ -13,11 +13,10 @@ public:
             checkLen(str+arr[i], arr, i+1);
     }
     
-    bool isUnique(string word) {
+    bool isUnique(string s) {
         set<char> st;
-        for (auto ele : word) {
-            if (st.find(ele) != st.end()) return false;
-            st.insert(ele);
+        for (auto ele : s) {
+            if (!st.insert(ele).second) return false;
         }
         return true;
     }
