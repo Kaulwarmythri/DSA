@@ -1,44 +1,45 @@
 class Solution {
+    int n;
 public:
-    bool canPartitionKSubsets(vector<int>& nums, int K) {
-        int N = nums.size();
-        if (K == 1) return true;
-        if (N < K) return false;
-        int sum = 0;
-        for (int i = 0; i < N; i++) sum += nums[i];
-        if (sum % K != 0) return false;
-
-        int subset = sum / K;
-        int subsetSum[K];
-        bool taken[N];
-
-        for (int i = 0; i < K; i++) subsetSum[i] = 0;
-        for (int i = 0; i < N; i++) taken[i] = false;
-
-        subsetSum[0] = nums[N - 1];
-        taken[N - 1] = true;
-
-        return canPartitionKSubsets(nums, subsetSum, taken, subset, K, N, 0, N - 1);
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        n = nums.size(); 
+        if(k == 1) return true;
+        if(n < k) return false;
+        
+        int sum = accumulate(nums.begin(), nums.end(), 0);
+        if(sum % k) return false;
+        
+        int subsetSum = sum / k;
+        vector<int> subsets(k, 0);
+        vector<bool> used(n, false);
+        
+        subsets[0] = nums[n-1];
+        used[n-1] = true;
+        
+        return solve(nums, subsets, used, subsetSum, k, 0, n-1);
     }
-
-    bool canPartitionKSubsets(vector<int>& nums, int subsetSum[], bool taken[], int subset, int K, int N, int curIdx, int limitIdx) {
-        if (subsetSum[curIdx] == subset) {
-            if (curIdx == K - 2) return true;
-            return canPartitionKSubsets(nums, subsetSum, taken, subset, K, N, curIdx + 1, N - 1);
+    
+    bool solve(vector<int> &nums, vector<int> &subsets, vector<bool> &used, int subsetSum,  int k, int currIdx, int limIdx) {
+        if(subsets[currIdx] == subsetSum) {
+            if(currIdx == k-2) return true;
+            return solve(nums, subsets, used, subsetSum, k, currIdx+1, n-1);
         }
-
-        for (int i = limitIdx; i >= 0; i--) {
-            if (taken[i]) continue;
-            int tmp = subsetSum[curIdx] + nums[i];
-
-            if (tmp <= subset) {
-                taken[i] = true;
-                subsetSum[curIdx] += nums[i];
-                bool nxt = canPartitionKSubsets(nums, subsetSum, taken, subset, K, N, curIdx, i - 1);
-                taken[i] = false;
-                subsetSum[curIdx] -= nums[i];
-                if (nxt) return true;
-            }
+        
+        for(int i=limIdx; i>=0; i--) {
+            if(used[i]) continue;
+            int temp = subsets[currIdx] + nums[i];
+            
+            if(temp <= subsetSum) {
+                subsets[currIdx] += nums[i];
+                used[i] = true;
+                
+                bool next = solve(nums, subsets, used, subsetSum, k, currIdx, i-1);
+                
+                subsets[currIdx] -= nums[i];
+                used[i] = false;
+                
+                if(next) return true;
+            }    
         }
         return false;
     }
