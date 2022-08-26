@@ -5,7 +5,7 @@ public:
         
         sort(N.begin(), N.end());
         
-        for(int i=0, pow_of_2 = 1; i<31; i++, pow_of_2 <<= 1) {
+        for(int i=0, pow_of_2 = 1; i<30; i++, pow_of_2 <<= 1) {
             string powOf2 = to_string(pow_of_2);
             sort(powOf2.begin(), powOf2.end());
             
