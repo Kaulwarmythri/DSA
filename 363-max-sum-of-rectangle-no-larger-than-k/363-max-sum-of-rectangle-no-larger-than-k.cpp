@@ -1,39 +1,35 @@
 class Solution {
 public:
-    int maxSumSubmatrix(vector<vector<int>>& matrix, int k) {
-        for (int row = 0; row < matrix.size(); ++row) {
-            int currSum = 0;
-            for (int col = 0; col < matrix[row].size(); ++col) {
-                currSum += matrix[row][col];
-                matrix[row][col] = currSum;
+    int maxSumSubmatrix(vector<vector<int>>& A, int k) {
+        int m = A.size(), n = A[0].size(), ans = INT_MIN;
+        
+        for(int i=0; i<m; i++) {
+            for(int j=1; j<n; j++) {
+                A[i][j] += A[i][j-1];
             }
         }
         
-        int maxSum = INT_MIN;
-        for (int lCol = 0; lCol < matrix[0].size(); ++lCol) {
-            for (int rCol = lCol; rCol < matrix[0].size(); ++rCol) {
+        for (int startCol = 0; startCol < n; ++startCol) {
+            for (int endCol = startCol; endCol < n; ++endCol) {
                 
-                set<int> bst; // RB tree
-                bst.insert(0);
+                set<int> seen; seen.insert(0);
                 
                 int rowPrefSum = 0;
-                for (int row = 0; row < matrix.size(); ++row) {
-                    int currSum = matrix[row][rCol] - (lCol == 0 ? 0 : matrix[row][lCol-1]);
-                    rowPrefSum += currSum;
+                
+                for (int row = 0; row < m; ++row) {
+                    rowPrefSum += A[row][endCol] - (startCol ? A[row][startCol-1] : 0);
+
+                    auto it = seen.lower_bound(rowPrefSum - k);
                     
-                    auto searchRes = bst.lower_bound(rowPrefSum - k);
+                    if (it != seen.end()) ans = max(ans, rowPrefSum - *it);
                     
-                    if (searchRes != bst.end()) {      
-                        maxSum = max(maxSum, rowPrefSum - *searchRes);
-                    }
-                    
-                    bst.insert(rowPrefSum);
+                    seen.insert(rowPrefSum);
                 }
                 
                 
             }
         }
         
-        return maxSum;
+        return ans;
     }
 };
