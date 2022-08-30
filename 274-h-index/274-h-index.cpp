@@ -1,20 +1,13 @@
 class Solution {
 public:
-    int hIndex(vector<int>& citns) {
-        int n = citns.size();
-        vector<int> counts(n+1, 0);
+    int hIndex(vector<int>& cit) {
+        int n = cit.size();
         
-        for(auto &c: citns) {
-            if(c >= n) counts[n]++;
-            else counts[c]++;
-        }
+        sort(cit.begin(), cit.end());
         
-        int cnt = 0;
-        for(int i=n; i>=0; i--) {
-            cnt += counts[i];
-            if(cnt >= i) return i;
+        for(int i=0; i<n; i++) {
+            if(cit[i] >= n-i) return n-i;
         }
         return 0;
-        
     }
 };
