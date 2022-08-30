@@ -1,27 +1,20 @@
 class Solution {
 public:
     bool increasingTriplet(vector<int>& nums) {
-        int n = nums.size(), mini = 0, maxi = n-1;
-        vector<int> smaller(n, -1), greater(n, -1);
+        int n = nums.size(), mini = nums[0], first = mini, sec = INT_MAX, third = INT_MAX;
         
         for(int i=1; i<n; i++) {
-            if(nums[i] <= nums[mini]) {
-                mini = i;
-            } else {
-                smaller[i] = mini;
+            if(nums[i] == mini) 
+                continue;
+            else if(nums[i] < mini) 
+                mini = nums[i];
+            else if(nums[i] < sec) {
+                sec = nums[i];
+                first = mini;
+            } else if(nums[i] > sec) {
+                return true;
             }
         }
-        
-        for(int i=n-2; i>=0; i--) {
-            if(nums[i] >= nums[maxi]) {
-                maxi = i;
-            } else {
-                greater[i] = maxi;
-            }
-        }
-        
-        for(int i=0; i<n; i++) if(smaller[i] != -1 && greater[i] != -1) return true;
-        
         return false;
     }
 };
