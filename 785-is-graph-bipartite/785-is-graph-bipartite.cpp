@@ -1,26 +1,26 @@
 class Solution {
-    vector<int> vis, color;
 public:
-    bool isBipartite(vector<vector<int>>& graph) {
-        int n = graph.size();
+    bool isBipartite(vector<vector<int>>& G) {
+        int n = G.size(); 
+        vector<int> C(n, 0);
         
-        vis.resize(n, 0); color.resize(n, 0);
+        queue<int> q; 
         
         for(int i=0; i<n; i++) {
-            if(!vis[i] && !dfs(graph, i, 0)) return false;
-        }
-        return true;
-    }
-    
-    bool dfs(vector<vector<int>> &graph, int u, int c) {
-        vis[u] = 1;
-        color[u] = c;
-        
-        for(int adj : graph[u]) {
-            if(!vis[adj]) {
-                if(!dfs(graph, adj, c^1)) return false;
-            }else {
-                if(color[adj] == color[u]) return false;
+            if(C[i]) 
+                continue;
+            C[i] = 1;
+            q.push(i);
+            while(!q.empty()) {
+                auto curr = q.front(); q.pop();
+                for(auto &adj: G[curr]) {
+                    if(!C[adj]) {
+                        C[adj] = -C[curr];
+                        q.push(adj);
+                    }
+                    else if(C[adj] == C[curr])
+                        return false;
+                }
             }
         }
         return true;
