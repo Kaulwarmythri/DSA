@@ -2,33 +2,23 @@ class Solution {
 public:
     vector<int> eventualSafeNodes(vector<vector<int>>& G) {
         int n = G.size();
-        vector<bool> vis(n, false), mark(n, false), cycle(n, false);
-        vector<int> safe;
+        vector<int> color(n, 0), safe;
         
         for(int i=0; i<n; i++) {
-            if(!vis[i]) dfs(G, i, vis, mark, cycle);
+            if(color[i] == 2|| !dfs(G, i, color))
+                safe.push_back(i);
         }
-        
-        for(int i=0; i<n; i++) {
-            if(!cycle[i]) safe.push_back(i);
-        }
-        return safe;
+        return safe;   
     }
     
-    bool dfs(vector<vector<int>> &G, int i, vector<bool> &vis, vector<bool> &mark, vector<bool> &cycle) {
-        if(!vis[i]) {
-            vis[i] = true;
-            mark[i] = true;
-            
-            for(auto &child: G[i]) {
-                if(!vis[child] && dfs(G, child, vis, mark, cycle))
-                    return cycle[i] = true;
-                else if(mark[child])
-                    return cycle[i] = true;
-            }
+    bool dfs(vector<vector<int>> &G, int curr, vector<int> &color) {
+        color[curr] = 1;
+        
+        for(auto &child: G[curr]) {
+            if((color[child] == 0 && dfs(G, child, color)) || color[child] == 1)
+                return true;
         }
-        mark[i] = false;
+        color[curr] = 2;
         return false;
     }
 };
-
