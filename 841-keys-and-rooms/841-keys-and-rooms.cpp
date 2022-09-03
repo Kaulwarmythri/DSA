@@ -1,22 +1,24 @@
 class Solution {
 public:
-    vector<bool> visited;
-    bool canVisitAllRooms(vector<vector<int>>& rooms) {
-        int n = rooms.size();
+    bool canVisitAllRooms(vector<vector<int>>& G) {
+        int n = G.size();
+        vector<bool> vis(n, false);
         
-        visited.resize(n, false);
-        dfs(rooms, 0);
+        dfs(G, 0, vis);
         
-        for(auto i : visited) if(!i) return false;
-        
+        for(int i=0; i<n; i++) {
+            if(!vis[i])
+                return false;
+        }
         return true;
     }
     
-    void dfs(vector<vector<int>> &rooms, int i) {
-        visited[i] = true;
+    void dfs(vector<vector<int>> &G, int curr, vector<bool> &vis) {
+        vis[curr] = true;
         
-        for(int j=0; j<rooms[i].size(); j++) {
-            if(!visited[rooms[i][j]]) dfs(rooms, rooms[i][j]);
+        for(auto &child: G[curr]) {
+            if(!vis[child])
+                dfs(G, child, vis);
         }
     }
 };
