@@ -2,19 +2,19 @@ class Solution {
     vector<vector<int>> dp;
     int n, m;
 public:
-    int solve(int i, int j, vector<int> &nums, vector<int> &M){
-        if (j == m) return 0;
-        if (dp[i][j] != INT_MIN) return dp[i][j];
+    int solve(vector<int> &nums, vector<int> &M, int l, int i){
+        if (i == m) return 0;
+        if (dp[l][i] != INT_MIN) return dp[l][i];
         
-        int left = solve(i + 1, j + 1, nums, M) + (nums[i] * M[j]);
-        int right = solve(i, j + 1, nums, M) + (nums[(n - 1) - (j - i)] * M[j]);
+        int left = solve(nums, M, l + 1, i + 1) + (nums[l] * M[i]);
+        int right = solve(nums, M, l, i + 1) + (nums[(n - 1) - (i - l)] * M[i]);
         
-        return dp[i][j] = max(left, right);
+        return dp[l][i] = max(left, right);
     }
     
     int maximumScore(vector<int>& nums, vector<int>& M) {   
         n = nums.size(), m = M.size();
         dp.resize(m + 1, vector<int>(m + 1, INT_MIN));
-        return solve(0, 0, nums, M);
+        return solve(nums, M, 0, 0);
     }
 };
