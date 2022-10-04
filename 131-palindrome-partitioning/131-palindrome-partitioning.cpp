@@ -1,43 +1,31 @@
 class Solution {
-    vector<string> buff;
     vector<vector<string>> ans;
-    vector<vector<int>> dp;
-    int n;
-    
 public:
     vector<vector<string>> partition(string s) {
-        n = s.size();
-        dp.resize(n, vector<int>(n, -1));
+        vector<string> buff;
+        find(s, 0, buff);
         
-        solve(s, 0, buff, ans);
         return ans;
     }
     
-    void solve(string s, int idx, vector<string> &buff, vector<vector<string>> &ans) {
-        if(idx == n) {
+    void find(string s, int i, vector<string> &buff) {
+        if(i == s.size()) {
             ans.push_back(buff);
             return;
         }
-        
-        for(int j=idx; j<n; j++) {
-            if(check(s, idx, j)) {
-                buff.push_back(s.substr(idx, j-idx+1));
-                solve(s, j+1, buff, ans);
+        for(int j=i; j<s.size(); j++) {
+            if(isPalindrome(s, i, j)) {
+                buff.push_back(s.substr(i, j-i+1));
+                find(s, j+1, buff);
                 buff.pop_back();
             }
         }
-        
     }
     
-    bool check(string str, int s, int e) {
-        if(dp[s][e] != -1) return dp[s][e];
-        
-        while(s < e) {
-            if(str[s] != str[e]) return dp[s][e] = 0; 
-            s++; e--;
+    bool isPalindrome(string s, int i, int j) {
+        while(i < j) {
+            if(s[i++] != s[j--]) return false;
         }
-        return dp[s][e] = 1;
-        
+        return true;
     }
 };
-    
