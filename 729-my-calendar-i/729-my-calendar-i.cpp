@@ -1,10 +1,11 @@
-class MyCalendar { 
+class MyCalendar {
     vector<pair<int, int>> cal;
 public:
+    MyCalendar() {}
     
     bool book(int start, int end) {
-        for(auto &p: cal) {
-            if(max(p.first, start)  < min(p.second, end)) return false;
+        for(auto &c: cal) {
+            if(max(c.first, start) < min(c.second, end)) return false;
         }
         cal.push_back({start, end});
         return true;
