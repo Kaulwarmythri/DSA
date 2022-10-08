@@ -1,8 +1,7 @@
 class Solution {
 public:
-    int threeSumClosest(vector<int>& nums, int target) {
-        int diff = INT_MAX, n = nums.size(), ans = INT_MAX;
-        
+    int threeSumClosest(vector<int>& nums, int X) {
+        int ans = INT_MAX, diff = INT_MAX, n = nums.size();
         sort(nums.begin(), nums.end());
         
         for(int i=0; i<n; i++) {
@@ -10,16 +9,16 @@ public:
             
             int l = i+1, r = n-1;
             while(l < r) {
-                int sum = nums[i] + nums[l] + nums[r], difference = abs(target - sum);
-                if(sum == target) return sum;
+                int sum = nums[i] + nums[l] + nums[r], difference = abs(X - sum);
+                if(sum == X) return sum;
                 if(difference < diff) {
                     diff = difference;
                     ans = sum;
-                } 
-                if(sum > target) r--;
+                }
+                if(sum > X) r--;
                 else l++;
             }
-        } 
+        }
         return ans;
     }
 };
