@@ -1,7 +1,7 @@
 class Solution {
-public:
     vector<vector<int>> dp;
 	vector<vector<int>> dp1;
+public:
 	bool isPalindrome(string& s, int i, int j) {
 		if (i >= j) return true;
 		if (dp1[i][j] != -1) return dp1[i][j];
@@ -26,3 +26,4 @@ public:
 		return solve(s,0,s.size()-1);
 	}
 };
+
