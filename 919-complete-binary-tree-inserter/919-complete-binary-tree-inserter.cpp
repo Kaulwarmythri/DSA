@@ -23,14 +23,14 @@ public:
     
     int insert(int val) {
         int n = tree.size();
-        TreeNode *node = new TreeNode(val);
-        tree.push_back(node);
-        if(n%2) {
-            tree[(n-1)/2]->left = node;
+        if(n % 2) {
+            tree[(n-1) / 2]->left = new TreeNode(val);
+            tree.push_back(tree[(n-1)/2]->left);
         } else {
-            tree[(n-1)/2]->right = node;
+            tree[(n-1) / 2]->right = new TreeNode(val);
+            tree.push_back(tree[(n-1)/2]->right);
         }
-        return tree[(n-1)/2]->val;
+        return tree[(n-1) / 2]->val;
     }
     
     TreeNode* get_root() {
