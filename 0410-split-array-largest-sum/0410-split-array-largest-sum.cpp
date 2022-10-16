@@ -20,7 +20,7 @@ public:
     }
     
     bool check(vector<int> &nums, int mid, int k) {
-        int sum = 0, count = 0;
+        int sum = 0, count = 1;
         for(int i=0; i<n; i++) {
             if(sum + nums[i] > mid) {
                 sum = 0;
@@ -28,6 +28,6 @@ public:
             }
             sum += nums[i];
         }
-        return count < k;
+        return count <= k;
     }
 };
