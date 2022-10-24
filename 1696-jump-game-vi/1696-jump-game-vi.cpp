@@ -7,9 +7,8 @@ public:
         
         for(int i=1; i<n; i++) {
             if(i > k) s.erase(s.find(dp[i-k-1]));
-            s.insert(dp[i] = *s.rbegin() + nums[i]);
+            s.insert(dp[i] = nums[i] + *s.rbegin());
         }
         return dp[n-1];
-        
     }
 };
