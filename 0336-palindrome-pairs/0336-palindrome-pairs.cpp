@@ -1,62 +1,53 @@
-struct TrieNode
-{
-    TrieNode *child[26]={};
-    int curIndex=-1;
-    vector<int> wordIndex;
+class TrieNode {
+public:
+    TrieNode *child[26]={NULL};
+    int index = -1;
+    vector<int> pIndices;   //palindromeIndices
 };
-class Solution
-{
-    bool isPalindrome(string &s, int i, int j)
-    {
-        while (i < j)
-        {
-            if (s[i++] != s[j--])
-                return false;
+
+class Solution {
+    bool isPalindrome(string &s, int i, int j) {
+        while (i < j) {
+            if (s[i++] != s[j--]) return false;
         }
         return true;
     }
-    TrieNode *root;
-    void insert(string &s, int index)
-    {
+    
+    void insert(string &s, int i) {
         TrieNode *cur = root;
-        for (int i = s.size() - 1; i >= 0; i--)
-        {
-            int c = s[i] - 'a';
-            if (cur->child[c] == nullptr)
-                cur->child[c] = new TrieNode();
-            if (isPalindrome(s, 0, i))
-                cur->wordIndex.push_back(index);
+        for (int j = s.size()-1; j >= 0; j--) {
+            int c = s[j] - 'a';
+            if (!cur->child[c]) cur->child[c] = new TrieNode();
+            
+            if (isPalindrome(s, 0, j)) cur->pIndices.push_back(i);
             cur = cur->child[c];
         }
-        cur->wordIndex.push_back(index);
-        cur->curIndex = index;
+        cur->pIndices.push_back(i);
+        cur->index = i;
     }
 
 public:
-    vector<vector<int>> palindromePairs(vector<string> &words)
-    {
+    TrieNode *root;
+    
+    vector<vector<int>> palindromePairs(vector<string> &A) {
+        int n = A.size();
         root = new TrieNode();
-        for (int i = 0; i < words.size(); i++)
-            insert(words[i], i);
+        for (int i = 0; i < n; i++) insert(A[i], i);
+        
         vector<vector<int>> ans;
-        for (int i = 0; i < words.size(); i++)
-        {
-            TrieNode *cur = root;
-            string &s = words[i];
-            for (int j = 0; j < s.size(); j++)
-            {
-                if (cur->curIndex != -1 && cur->curIndex != i && isPalindrome(s, j, s.size() - 1))
-                    ans.push_back({i, cur->curIndex});
-                cur = cur->child[s[j] - 'a'];
-                if (cur == nullptr)
-                    break;
+        for (int i = 0; i < n; i++) {
+            TrieNode *curr = root;
+            string s = A[i];
+            for (int j = 0; j < s.size(); j++) {
+                if (curr->index != -1 && curr->index != i && isPalindrome(s, j, s.size()-1))
+                    ans.push_back({i, curr->index});
+                
+                curr = curr->child[s[j] - 'a'];
+                if (!curr) break;
             }
-            if (cur == nullptr)
-                continue;
-            for (int j : cur->wordIndex)
-            {
-                if (i == j)
-                    continue;
+            if (!curr) continue;
+            for (auto &j: curr->pIndices) {
+                if (i == j) continue;
                 ans.push_back({i, j});
             }
         }
