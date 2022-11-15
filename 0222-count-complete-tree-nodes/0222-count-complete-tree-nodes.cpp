@@ -18,6 +18,7 @@ public:
         curr = root;
         while((curr = curr->right)) 
             r++;
+        if(l == r) return pow(2, l) - 1;
         return root == NULL ? 0 : 1 + countNodes(root->left) + countNodes(root->right);    
     }
 };
