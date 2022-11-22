@@ -9,26 +9,30 @@ using namespace std;
 class Solution {
 public:
     int findSum(int A[], int n) {
-    	pair<int, int> ans = solve(A, 0, n-1);
+    	pair<int, int> ans = solve(A, n);
     	return ans.first + ans.second;
     }
 
-    pair<int, int> solve(int A[], int l, int r) {
-        if(l == r) 
-            return {A[l], A[l]};
+    pair<int, int> solve(int A[], int n) {
+        int mini = INT_MAX, maxi = INT_MIN, i = 0;
+        if(n % 2) {
+            if(A[0] < A[1]) mini = A[0], maxi = A[1];
+            else mini = A[1], maxi = A[0];
+            i = 2;
+        } else {
+            mini = A[0]; maxi = A[0];
+            i = 1;
+        }
         
-        if(r == l+1) 
-            if(A[l] < A[r]) return {A[l], A[r]};
-            else return {A[r], A[l]};
-            
-        int mid = l + (r - l) / 2, mini, maxi;
-        pair<int, int> left = solve(A, l, mid), right = solve(A, mid+1, r);
-        if(left.first < right.first) mini = left.first;
-        else mini = right.first;
-        
-        if(left.second > right.second) maxi = left.second;
-        else maxi = right.second;
-        
+        for(; i<n-1; i++) {
+            if(A[i] > A[i+1]) {
+                if(A[i] > maxi) maxi = A[i];
+                if(A[i+1] < mini) mini = A[i+1]; 
+            } else {
+                if(A[i] < mini) mini = A[i];
+                if(A[i+1] > maxi) maxi = A[i+1];
+            }
+        }
         return {mini, maxi};
     }
 };
