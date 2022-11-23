@@ -20,12 +20,12 @@ public:
     }
     
     bool valid(vector<vector<char>> &B, int i, int j, char c) {
+        int rowR = 3 * (i / 3), colR = 3 * (j / 3);
         for(int k=0; k<9; k++) {
             if(B[i][k] == c) return false;
             if(B[k][j] == c) return false;
-            if(B[i - i%3 + k/3][j - j%3 + k%3] == c) return false;
+            if(B[rowR + k/3][colR + k%3] == c) return false;
         }
         return true;
-    }
+   }
 };
-
