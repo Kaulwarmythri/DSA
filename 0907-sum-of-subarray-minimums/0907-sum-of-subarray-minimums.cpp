@@ -29,3 +29,20 @@ public:
         return ans;
     }
 };
+
+
+//This is the kind of problem where CONTRIBUTION of every element is to be found. 
+//The contibution of an element in this problem is (element) * (No. of subarrays such that this element is the minimum of them).
+//No. of such subarrays = left * right -> left is the max length such that 'element' is the smallest in the subarrays on left which include 'element', right is the max length such that 'element' is the smallest on the right.
+
+//So we basically need to find the prev smaller and next smaller elements and find the difference in length and multiply it.
+
+
+//Let 
+//1   8   7   3    4   2
+//    <---m---><-n->           -> Here m = 3, n = 2
+    
+//No. of subarrays in which 3 is minimum 
+//    => (m + n - 1) * (m + n) / 2 - (m - 1) * m /2 - (n - 1) * n /2 (m + n -1) because 3 is counted twice.
+//m-1 => the array (8, 7) and all it's subarrays must be subtracted
+//similarly n - 1
