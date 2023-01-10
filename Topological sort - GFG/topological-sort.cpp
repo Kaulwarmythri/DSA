@@ -4,31 +4,26 @@ using namespace std;
 
 // } Driver Code Ends
 class Solution {
-	public: 
+    vector<int> vis, ans;
+public:
 	vector<int> topoSort(int n, vector<int> G[]) {
-	    vector<int> indegree(n, 0), ans;
+	    vis.resize(n, false);
 	    
 	    for(int i=0; i<n; i++) {
-	        for(auto &j: G[i]) {
-	            indegree[j]++;
-	        }
+	        if(!vis[i]) dfs(G, i);
 	    }
-	    queue<int> q; 
-	    for(int i=0; i<n; i++) 
-	        if(indegree[i] == 0) q.push(i);
-	    if(q.empty()) return {};
-	    
-	    while(q.size()) {
-	        auto curr = q.front(); q.pop();
-	        ans.push_back(curr);
-	        
-	        for(auto &c: G[curr]) {
-	            indegree[c]--;
-	            if(indegree[c] == 0) q.push(c);
-	        }
-	    }
+	    reverse(ans.begin(), ans.end());
 	    return ans;
- 	}
+	}
+	
+	void dfs(vector<int> G[], int i) {
+	    vis[i] = true;
+	    
+	    for(auto &c: G[i]) {
+	        if(!vis[c]) dfs(G, c);
+	    }
+	    ans.push_back(i);
+	}
 };
 
 //{ Driver Code Starts.
