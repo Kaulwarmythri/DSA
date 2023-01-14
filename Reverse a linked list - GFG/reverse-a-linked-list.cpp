@@ -22,19 +22,17 @@ struct Node {
 /*struct Node {
     int data;
     struct Node *next;
-}*/
+} */
 class Solution {
 public:
-    struct Node* reverseList(struct Node *head) {
-        struct Node *prev = NULL, *curr = head, *nxt;
+    struct Node* reverseList(struct Node *head, struct Node *prev = NULL) {
+        if(!head) return prev;
         
-        while(curr) {
-            nxt = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = nxt;
-        }
-        return prev;
+        struct Node *nxt = head->next;
+        head->next = prev;
+        
+        return reverseList(nxt, head);
+        
     }
     
 };
