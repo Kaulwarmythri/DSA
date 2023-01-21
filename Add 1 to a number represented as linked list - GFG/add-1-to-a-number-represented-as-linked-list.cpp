@@ -29,16 +29,17 @@ void printList(Node* node)
 /*struct Node {
     int data;
     struct Node* next;
-    Node(int x) {
+    
+    Node(int x){
         data = x;
         next = NULL;
     }
 };*/
-
 class Solution {
 public:
     Node* addOne(Node *head) {
-        Node *curr = head, *prev = head;
+        Node *prev = head, *curr = head;
+        
         while(curr->next) {
             if(curr->data != 9) prev = curr;
             curr = curr->next;
@@ -46,9 +47,9 @@ public:
         
         if(curr->data == 9) {
             if(prev->data == 9 && prev == head) {
-                Node *newNode = new Node(1);
-                newNode->next = head;
-                head = newNode;
+                Node *temp = new Node(1);
+                temp->next = head;
+                head = temp;
                 curr = prev;
             } else {
                 curr = prev;
