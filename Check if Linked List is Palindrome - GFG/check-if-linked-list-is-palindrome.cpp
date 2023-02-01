@@ -18,31 +18,34 @@ struct Node {
 
 
 // } Driver Code Ends
-/*
-struct Node {
+/*struct Node {
   int data;
   struct Node *next;
   Node(int x) {
     data = x;
     next = NULL;
   }
-};
-*/
+};*/
 
 class Solution{
-  public:
+public:
     bool isPalindrome(Node *head) {
-        return check(head, head);
-    }
-    
-    bool check(Node* &head, Node *end) {
-        if(!end) return true;
+        Node *fast = head, *slow = head, *temp, *prev = NULL;
         
-        bool isPal = check(head, end->next);
-        if(head->data != end->data) return false;
-        head = head->next;
-        
-        return isPal;
+        while(fast && fast->next) {
+            fast = fast->next->next;
+            temp = slow->next;
+            slow->next = prev;
+            prev = slow;
+            slow = temp;
+        }
+        slow = (fast) ? slow->next : slow;
+        while(slow) {
+            if(slow->data != prev->data) return false;
+            slow = slow->next;
+            prev = prev->next;
+        }
+        return true;
     }
 };
 
