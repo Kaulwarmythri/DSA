@@ -5,13 +5,13 @@ public:
         
         while(l < r) {
             int mid = l + (r - l) / 2;
-            if(check(W, mid, d) <= d) r = mid;
+            if(check(W, mid) <= d) r = mid;
             else l = mid + 1;
         }
         return l;
     }
     
-    int check(vector<int> &W, int mid, int D, int cur = 0, int needed = 1) {
+    int check(vector<int> &W, int mid, int cur = 0, int needed = 1) {
         for(auto &w: W) {
             cur += w;
             if(cur > mid) needed++, cur = w;
