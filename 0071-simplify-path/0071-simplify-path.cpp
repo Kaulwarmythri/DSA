@@ -4,20 +4,20 @@ public:
         stack<string> s;
         
         istringstream ss(path);
-        string temp, ans = "";
+        string dir, ans;
         
-        while(getline(ss, temp, '/')) {
-            if(temp == "" || temp == ".") continue;
-            else if(temp == "..") {
+        while(getline(ss, dir, '/')) {
+            if(dir == "" || dir == ".") continue;
+            else if(dir == "..") {
                 if(!s.empty()) s.pop();
             }
-            else s.push(temp);
+            else s.push(dir);
         }
         
         if(s.empty()) return "/";
         while(s.size()) {
-            auto curr = s.top(); s.pop();
-            ans = "/" + curr + ans;
+            dir = s.top(); s.pop();
+            ans = "/" + dir + ans;
         }
         return ans;
     }
