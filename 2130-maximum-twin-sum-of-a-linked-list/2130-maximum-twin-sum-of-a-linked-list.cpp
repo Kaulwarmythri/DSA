@@ -9,19 +9,24 @@
  * };
  */
 class Solution {
-    int maxi = 0;
+    int ans = INT_MIN;
 public:
     int pairSum(ListNode* head) {
         solve(head, head);
         
-        return maxi;
+        return ans;
     }
     
     void solve(ListNode* &head1, ListNode *head2) {
         if(!head2) return;
         
         solve(head1, head2->next);
-        maxi = max(maxi, head1->val + head2->val);
+        ans = max(ans, head1->val + head2->val);
+        
         head1 = head1->next;
     }
 };
+
+
+
+
