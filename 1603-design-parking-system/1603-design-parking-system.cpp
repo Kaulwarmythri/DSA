@@ -1,26 +1,12 @@
 class ParkingSystem {
-    int big, medium, small;
+    vector<int> count;
 public:
     ParkingSystem(int big, int medium, int small) {
-        this->big = big;
-        this->medium = medium;
-        this->small = small;
+        count = {big, medium, small};
     }
     
-    bool addCar(int x) {
-        if(x == 1) {
-            if(big) {big--; return true;}
-            return false;
-        }
-        else if(x == 2) {
-            if(medium) {medium--; return true;}
-            return false;
-        }
-        else {
-            if(small) {small--; return true;}
-            return false;
-        }
-        return false;
+    bool addCar(int carType) {
+        return count[carType - 1]-- > 0;
     }
 };
 
