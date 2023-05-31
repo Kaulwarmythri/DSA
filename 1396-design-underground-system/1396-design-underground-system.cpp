@@ -1,55 +1,37 @@
 class UndergroundSystem {
+    unordered_map<int, pair<string , int>> startsNTimes;
     unordered_map<string, pair<long long, int>> travelTimes;
-    
-    unordered_map<int, pair<string,int>> startStations;
-public:    
+public:
     UndergroundSystem() {
+        startsNTimes.clear();
         travelTimes.clear();
-        startStations.clear();
     }
+    
     void checkIn(int id, string stn, int t) {
+        if(startsNTimes.find(id) != startsNTimes.end()) return;
         
-        if(startStations.find(id) != startStations.end()) return;
-        
-        startStations[id] = {stn, t};
+        startsNTimes[id] = {stn, t};
     }
     
     void checkOut(int id, string stn, int t) {
-        auto& info = startStations[id];
-
+        auto info = startsNTimes[id];
+        
         string key = info.first + ":" + stn;
         
-        int time = t - info.second;
-        
         if(travelTimes.find(key) != travelTimes.end()) {
-            
-            auto& oldTimes = travelTimes[key];
-            oldTimes.first += time;
-            oldTimes.second++;
-            
-        } else
-            travelTimes[key] = {time, 1};
-        
-        startStations.erase(id);
-        
+            travelTimes[key].first += t - info.second;
+            travelTimes[key].second++;
+        } else {
+            travelTimes[key] = {t - info.second, 1};
+        }
+        startsNTimes.erase(id);
     }
     
     double getAverageTime(string startStation, string endStation) {
-        
         string key = startStation + ":" + endStation;
         
-        auto& info = travelTimes[key];
+        auto &info = travelTimes[key];
         
-        double avg = (double)info.first / (double)info.second;
-        
-        return avg;
+        return (double) info.first / (double) info.second;
     }
 };
-
-/**
- * Your UndergroundSystem object will be instantiated and called as such:
- * UndergroundSystem* obj = new UndergroundSystem();
- * obj->checkIn(id,stationName,t);
- * obj->checkOut(id,stationName,t);
- * double param_3 = obj->getAverageTime(startStation,endStation);
- */
