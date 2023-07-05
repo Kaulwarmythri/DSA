@@ -1,32 +1,32 @@
 class Solution {
+    int m, ans = 0;
 public:
-    int ans = 0;
-
-    void helper(int start, vector<vector<int>>& requests, vector<int>& indegree, int n, int count) {
-        if (start == requests.size()) {
-            for (int i = 0; i < n; i++) {
-                if (indegree[i] != 0) {
-                    return;
-                }
-            }
+    int maximumRequests(int n, vector<vector<int>>& A) {
+        m = A.size();
+        vector<int> indegree(n);
+        
+        solve(A, indegree, n, 0, 0);
+        
+        return ans;
+    }
+    
+    void solve(vector<vector<int>> &A, vector<int> &I, int n, int start, int count) {
+        if(start == m) {
+            for(auto &i: I) 
+                if(i != 0) return;
+            
             ans = max(ans, count);
             return;
         }
-
-        // Take 
-        indegree[requests[start][0]]--;
-        indegree[requests[start][1]]++;
-        helper(start + 1,requests, indegree, n, count + 1);
-
-        // Not-take
-        indegree[requests[start][0]]++;
-        indegree[requests[start][1]]--;
-        helper(start + 1,requests, indegree, n, count);
-    }
-    
-    int maximumRequests(int n, vector<vector<int>>& requests) {
-        vector<int> indegree(n, 0);
-        helper(0, requests, indegree, n, 0);
-        return ans;
+        
+        I[A[start][0]]--;
+        I[A[start][1]]++;
+        
+        solve(A, I, n, start + 1, count + 1);
+        
+        I[A[start][0]]++;
+        I[A[start][1]]--;
+        
+        solve(A, I, n, start + 1, count);
     }
 };
