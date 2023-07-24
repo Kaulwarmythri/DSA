@@ -5,11 +5,9 @@
  * @return {Function}
  */
 var cancellable = function(fn, args, t) {
-    let called = false;
+    let timer = setTimeout(() => {fn(...args)}, t)
     
-    setTimeout(() => {if(!called) fn(...args)}, t);
-    
-    return cancelFn = () => {called = true}
+    return cancelFn = () => {clearTimeout(timer)}
 };
 
 /**
